@@ -1,5 +1,5 @@
-import React from "react";
-import { View, StyleSheet, Image, Text } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, Image, Text, Button } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 
 interface eventProps {
@@ -25,7 +25,6 @@ const EventCard = (props: eventProps) => {
                     </View>
                     <View style={styles.textView}>
                         <Text style={styles.eventName}>{props.eventName}</Text>
-                        <Text style={styles.eventDate}>{props.startDate.toDateString()}</Text>
                         <View style={styles.numberContainer}>
                             <View>
                                 <Text style={styles.numberTags}>Photos</Text>
@@ -35,14 +34,12 @@ const EventCard = (props: eventProps) => {
                                 <Text style={styles.numberTags}>People</Text>
                                 <Text style={styles.eventNumbers}>{props.numPeople.toString()}</Text>
                             </View>
-
                         </View>
                         <View style={{alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: '7%'}}>
                             <Text style={{fontSize: 14, color: 'gray'}}>Starts in 10 days</Text>
-                            
                         </View>
                     </View>
-                </View>
+                </View> 
             </LinearGradient>
         </View>
     );
@@ -52,21 +49,12 @@ const styles = StyleSheet.create({
     shadowContainer: {
         elevation: 4, // Android shadow
         shadowColor: 'black', // iOS shadow
-        // shadowOffset: { width: 0, height: 4 }, // iOS shadow
-        // shadowOpacity: 1, // iOS shadow
-        // shadowRadius: 4, // iOS shadow
-        height: '25%',
-        marginHorizontal: '2%',
         borderRadius: 25,
         opacity: 0.9,
         justifyContent: 'center',
     },
     cardContainer: {
-        // height: '25%',
-        // marginHorizontal: '2%',
         borderRadius: 25,
-        // opacity: 0.9,
-        // justifyContent: 'center',
     },
     cardContent: {
         flexDirection: 'row',
