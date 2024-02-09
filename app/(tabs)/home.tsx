@@ -42,7 +42,7 @@ const App = () => {
               return <Image source={require('@/assets/images/userDefault.png')} style={{width: 35, height: 35, marginRight: 20, borderRadius: 100}} />
             },}} />
           <ScrollView style={styles.cardContainer}>
-            {events.length >  0 && !isLoading ? events.map((event:Event) => (
+            {events && events.length >  0 && !isLoading ? events.map((event:Event) => (
               <Pressable key={event.EventId} onPress={() => {router.navigate(`/event/${event.EventId}`)}} style={{height: 150, marginBottom: 15,}}>
                 <EventCard eventName={event.Name} startDate={event.StartDate} endDate={event.EndDate} numPeople={event.UniquePosters} numPhotos={event.NumPhotos}/>
               </Pressable>
