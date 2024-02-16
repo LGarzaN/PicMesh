@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Image, SafeAreaView, StyleSheet, Pressable, View, ScrollView, ActivityIndicator } from 'react-native';
+import { Image, SafeAreaView, StyleSheet, Pressable, View, ScrollView, Text, Modal, Alert } from 'react-native';
 import EventCard from '@/components/EventCard';
 import { router, Stack, Tabs } from "expo-router";
 import { decode as atob, encode as btoa } from 'base-64';
 import { useQuery } from '@tanstack/react-query';
 import fetchEvents from '@/api/events'
+import CreateEvent from '@/components/createEvent';
+import { Ionicons } from '@expo/vector-icons';
 
 if (!global.btoa) { global.btoa = btoa; }
 if (!global.atob) { global.atob = atob; }
@@ -24,6 +26,7 @@ interface Event {
 }
 
 const App = () => {
+  const [modalVisible, setModalVisible] = useState(false);
   const {data: events, isLoading} = useQuery({
     queryFn: async () => await fetchEvents(),
     queryKey: ["events"],
@@ -39,15 +42,28 @@ const App = () => {
           paddingHorizontal: 10,
         }}>
             <Stack.Screen options={{headerTitle: "Events", headerRight(props) {
-              return <Image source={require('@/assets/images/userDefault.png')} style={{width: 35, height: 35, marginRight: 20, borderRadius: 100}} />
+              return <Pressable onPress={() => {setModalVisible(true)}} style={{marginRight: 15}}><Ionicons name='add' color={'white'} size={35}/></Pressable>
             },}} />
-          <ScrollView style={styles.cardContainer}>
+            <Modal
+              animationType="slide"
+              //transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                setModalVisible(!modalVisible);
+              }}>
+                <CreateEvent/>
+            </Modal>
+          
             {events && events.length >  0 && !isLoading ? events.map((event:Event) => (
-              <Pressable key={event.EventId} onPress={() => {router.navigate(`/event/${event.EventId}`)}} style={{height: 150, marginBottom: 15,}}>
-                <EventCard eventName={event.Name} startDate={event.StartDate} endDate={event.EndDate} numPeople={event.UniquePosters} numPhotos={event.NumPhotos}/>
-              </Pressable>
-            )): <View style={{flex:1, justifyContent:'center', alignItems: 'center'}}><Image source={require('@/assets/images/adaptive-icon.png')} style={{width: 200, height: 200}}/></View>}
-          </ScrollView>
+              <ScrollView style={styles.cardContainer}>
+                <Pressable key={event.EventId} onPress={() => {router.navigate(`/event/${event.EventId}`)}} style={{height: 150, marginBottom: 15,}}>
+                  <EventCard eventName={event.Name} startDate={event.StartDate} endDate={event.EndDate} numPeople={event.UniquePosters} numPhotos={event.NumPhotos}/>
+                </Pressable>
+              </ScrollView>
+            )): <View style={{flex:1, justifyContent:'center', alignItems: 'center'}}>
+                <Ionicons name='albums' size={150} color={'white'}/>
+                <Text style={{color: "white", fontSize: 18, fontWeight: '600'}}>No events yet</Text>
+              </View>}
     </SafeAreaView>
   );
 };

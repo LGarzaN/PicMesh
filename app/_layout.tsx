@@ -31,6 +31,9 @@ const Layout = () => {
         <Stack.Screen name="login" />
         <Stack.Screen name="signup" options={{headerTitle: ""}}/>
         <Stack.Screen name="signup2" options={{headerTitle: ""}}/>
+        <Stack.Screen name="createEvent" options={{
+            headerTitle: "Create Event", 
+            presentation: 'modal'}}/>
     </Stack>
     </QueryClientProvider>
     )
