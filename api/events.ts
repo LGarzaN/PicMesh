@@ -12,6 +12,7 @@ const fetchEvents = async () => {
         return response.data.events;
       } else {
         router.navigate('/login');
+        return [];
       }
     } catch (error) {
       console.log(error, "error");
