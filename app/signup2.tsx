@@ -1,4 +1,4 @@
-import {Pressable, Text, Image, TextInput, View, Alert} from 'react-native'
+import {Pressable, Text, Image, TextInput, View, Alert, Platform} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useState } from 'react';
 import * as ImagePicker from "expo-image-picker"; 
@@ -9,16 +9,32 @@ import axios from 'axios';
 
 const Page = () => {
     const params = useLocalSearchParams();
-    const [image, setImage] = useState(null); 
+    const [image, setImage] = useState<string | null>(null);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error2, setError2] = useState(false);
     const [user, setUser] = useState({
-        email: params.email,
+        email: params.email as string,
         password: "",
-        phone: params.phone,
+        phone: params.phone as string,
         username: "",
     });
+
+    // const createFormData = (photo:any, body = {}) => {
+    //     const data = new FormData();
+      
+    //     data.append('profilePicture', {
+    //       name: photo.fileName,
+    //       type: photo.type,
+    //       uri: Platform.OS === 'ios' ? photo.uri.replace('file://', '') : photo.uri,
+    //     });
+      
+    //     Object.keys(body).forEach((key) => {
+    //       data.append(key, body[key]);
+    //     });
+      
+    //     return data;
+    //   };
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -40,7 +56,23 @@ const Page = () => {
         } else {
             try{
                 setLoading(true);
-                const res = await axios.post("http://ec2-3-85-82-230.compute-1.amazonaws.com:3100/users/signup", user);
+
+                const data = new FormData();
+                data.append('email', user.email);
+                data.append('phone', user.phone);
+                data.append('username', user.username);
+                data.append('password', user.password);
+
+                if (image) {
+                    data.append('profilePicture', image);
+                }
+                
+
+                const res = await axios.post("http://ec2-3-85-82-230.compute-1.amazonaws.com:3100/users/signup", data, {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                });
                 setLoading(false);
                 if (res.status === 201) {
                     try {
@@ -50,11 +82,12 @@ const Page = () => {
                         });
                         router.navigate('/home');
                     } catch (error) {
-                        Alert.alert("An error occured. Please try again later" + error);
+                        Alert.alert(error as string);
                     }
                 }
             } catch (error) {
                 Alert.alert("An error occured. Please try again later" + error);
+                console.log(error);
                 setLoading(false);
             }
 

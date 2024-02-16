@@ -5,6 +5,7 @@ import { router, Stack, Tabs } from "expo-router";
 import { decode as atob, encode as btoa } from 'base-64';
 import { useQuery } from '@tanstack/react-query';
 import fetchEvents from '@/api/events'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 if (!global.btoa) { global.btoa = btoa; }
 if (!global.atob) { global.atob = atob; }
@@ -17,18 +18,37 @@ interface Event {
   UniquePosters: number;
   Creator: string;
   StartDate: Date;
-  EndDate: Date; 
+  EndDate: Date;  
   CurrentStorage: number;
   StorageLimit: number;
   AllowCameraRoll: boolean; 
 }
 
 const App = () => {
+  const [profilePicture, setProfilePicture] = useState<string>();
+
   const {data: events, isLoading} = useQuery({
     queryFn: async () => await fetchEvents(),
     queryKey: ["events"],
     refetchOnMount: 'always'
   })
+
+  useEffect(() => {
+    const fetchProfilePicture = async () => {
+      try {
+        const pp = await AsyncStorage.getItem('profilePicture');
+        if (pp) {
+          setProfilePicture(pp);
+          console.log(profilePicture); 
+        }
+        
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchProfilePicture();
+  }, []);
   
   return (
     <SafeAreaView
@@ -39,10 +59,16 @@ const App = () => {
           paddingHorizontal: 10,
         }}>
             <Stack.Screen options={{headerTitle: "Events", headerRight(props) {
-              return <Image source={require('@/assets/images/userDefault.png')} style={{width: 35, height: 35, marginRight: 20, borderRadius: 100}} />
+              return (
+                <View>
+                  {profilePicture ? 
+                  <Image source={{uri: profilePicture}} style={{width: 35, height: 35, marginRight: 20, borderRadius: 100}} />:
+                  <Image source={require('@/assets/images/userDefault.png')} style={{width: 35, height: 35, marginRight: 20, borderRadius: 100}} />}
+                </View>
+              )
             },}} />
           <ScrollView style={styles.cardContainer}>
-            {events.length >  0 && !isLoading ? events.map((event:Event) => (
+            {events && events.length >  0 && !isLoading ? events.map((event:Event) => (
               <Pressable key={event.EventId} onPress={() => {router.navigate(`/event/${event.EventId}`)}} style={{height: 150, marginBottom: 15,}}>
                 <EventCard eventName={event.Name} startDate={event.StartDate} endDate={event.EndDate} numPeople={event.UniquePosters} numPhotos={event.NumPhotos}/>
               </Pressable>

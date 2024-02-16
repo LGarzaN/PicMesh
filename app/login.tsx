@@ -33,6 +33,11 @@ const Page = () => {
                     try {
                         await AsyncStorage.setItem("token", response.data.token);
                         queryClient.invalidateQueries();
+                        try {
+                            await AsyncStorage.setItem('profilePicture', response.data.profilePicture);
+                        } catch (error) {
+                            console.log(error, "login");
+                        }
                         router.navigate('/home');
                     } catch (error) {
                     }
