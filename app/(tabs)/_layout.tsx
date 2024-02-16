@@ -24,6 +24,7 @@ export default function Layout() {
             <Tabs.Screen   
                 name="home"
                 options={{
+                    headerShown: false,
                     title: "",
                     tabBarIcon: ({ focused, color }) => (
                         <Ionicons
@@ -38,6 +39,7 @@ export default function Layout() {
             <Tabs.Screen   
                 name="createEvent"
                 options={{
+                  headerShown: false,
                   title: "",
                     tabBarIcon: ({ focused, color }) => (
                         <Ionicons
@@ -52,6 +54,7 @@ export default function Layout() {
             <Tabs.Screen   
                 name="user"
                 options={{
+                  headerShown: false,
                   title: "",
                     tabBarIcon: ({ focused, color }) => (
                         <Ionicons
