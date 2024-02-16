@@ -1,4 +1,4 @@
-import LoginButton from '@/components/LoginButton';
+import LoginButton from '@/components/Buttons';
 import React from 'react';
 import { Alert, Pressable, Text, TextInput, View } from "react-native";
 import PhoneInput from "react-native-phone-number-input";

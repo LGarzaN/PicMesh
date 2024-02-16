@@ -1,4 +1,4 @@
-import LoginButton from "@/components/LoginButton";
+import LoginButton from "@/components/Buttons";
 import { Text, View, TextInput } from "react-native"
 import validator from "validator";
 import { router, useLocalSearchParams } from "expo-router";

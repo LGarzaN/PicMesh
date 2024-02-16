@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-import LoginButton from '@/components/LoginButton';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView} from 'react-native';
+import LoginButton from '@/components/Buttons';
 import { Stack } from 'expo-router'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { router } from 'expo-router'
@@ -15,7 +15,7 @@ const Page = () => {
     }
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#1B1B1B' }}>
+    <View style={{ flex: 1, backgroundColor: '#1B1B1B' }}>
         <View style={styles.topContainer}>
             <View style={{paddingTop: 40, paddingBottom: 6}}>
                 <Image source={require('@/assets/images/cat.jpg')} style={styles.image}/>
@@ -30,19 +30,21 @@ const Page = () => {
         <View style={styles.bottomContainer}>
             <View style={styles.boxBottom}/>
             <View style={styles.boxTop}/>
-            <Text style={styles.infoTxt}>Account Info</Text>
-            <View style={styles.line}/>
-            <View style={styles.infoContainer}>
-                <Text style={styles.infoTxt}>email:</Text>
-                <Text style={styles.detailTxt}>user.name@gmail.com</Text>
-            </View>
-            <View style={styles.infoContainer}>
-                <Text style={styles.infoTxt}>email:</Text>
-                <Text style={styles.detailTxt}>user.name@gmail.com</Text>
-            </View>
-            <View style={styles.center}>
-                <LoginButton text={"Sign Out"} onPress={signOut}/>
-            </View>
+            <ScrollView style={{width: "100%", zIndex: 2}}>
+                <Text style={styles.infoTxt}>Account Info</Text>
+                <View style={styles.line}/>
+                <View style={styles.infoContainer}>
+                    <Text style={styles.infoTxt}>email:</Text>
+                    <Text style={styles.detailTxt}>user.name@gmail.com</Text>
+                </View>
+                <View style={styles.infoContainer}>
+                    <Text style={styles.infoTxt}>email:</Text>
+                    <Text style={styles.detailTxt}>user.name@gmail.com</Text>
+                </View>
+                <View style={styles.center}>
+                    <LoginButton text={"Sign Out"} onPress={signOut}/>
+                </View>
+            </ScrollView>
         </View> 
     </View>
     )

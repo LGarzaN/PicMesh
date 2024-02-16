@@ -28,6 +28,7 @@ const Layout = () => {
             headerShadowVisible: false,
     }}>
         <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
+        <Stack.Screen name="inEvent" options={{headerShown: false}}/>
         <Stack.Screen name="login" />
         <Stack.Screen name="signup" options={{headerTitle: ""}}/>
         <Stack.Screen name="signup2" options={{headerTitle: ""}}/>

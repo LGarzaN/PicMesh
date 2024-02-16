@@ -56,7 +56,7 @@ const App = () => {
           
             {events && events.length >  0 && !isLoading ? events.map((event:Event) => (
               <ScrollView style={styles.cardContainer}>
-                <Pressable key={event.EventId} onPress={() => {router.navigate(`/event/${event.EventId}`)}} style={{height: 150, marginBottom: 15,}}>
+                <Pressable key={event.EventId} onPress={() => {router.navigate("/inEvent")}} style={{height: 150, marginBottom: 15,} }>
                   <EventCard eventName={event.Name} startDate={event.StartDate} endDate={event.EndDate} numPeople={event.UniquePosters} numPhotos={event.NumPhotos}/>
                 </Pressable>
               </ScrollView>
@@ -67,7 +67,7 @@ const App = () => {
     </SafeAreaView>
   );
 };
-
+//`/inEvent/${event.EventId}`
 const styles = StyleSheet.create({
     titleText: {
         fontSize: 45,

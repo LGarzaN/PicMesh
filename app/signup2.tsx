@@ -3,7 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useState } from 'react';
 import * as ImagePicker from "expo-image-picker"; 
 import { useLocalSearchParams } from 'expo-router';
-import LoginButton from '@/components/LoginButton';
+import LoginButton from '@/components/Buttons';
 import { Stack, router } from 'expo-router';
 import axios from 'axios';
 
