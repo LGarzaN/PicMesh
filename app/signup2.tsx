@@ -114,7 +114,7 @@ const Page = () => {
             {error && <Text style={{color: 'red', marginTop: 10, alignSelf: 'flex-start', paddingLeft: '15%'}}>Passwords do not match</Text>}
             
             <View style={{width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: '20%',  marginTop: 20}}>
-                <LoginButton onPress={handleClick} disabled={error || error2} loading={loading}/>
+                <LoginButton text={"Continue"} onPress={handleClick} disabled={error || error2} loading={loading}/>
             </View>
         </SafeAreaView>
     )

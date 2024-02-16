@@ -1,6 +1,7 @@
 import { Pressable, Text, StyleSheet, ActivityIndicator } from "react-native"
 
 interface props {
+    text : String;
     onPress: () => void;
     disabled? : boolean;
     loading?: boolean;
@@ -15,7 +16,7 @@ const LoginButton = (props:props) => {
           ]}
           onPress={props.onPress}
           disabled={props.disabled ?? false}>
-            <Text style={styles.text}>{props.loading ? <ActivityIndicator size="small" color="#fff" /> : "Continue" ?? "Continue"}</Text>
+            <Text style={styles.text}>{props.loading ? <ActivityIndicator size="small" color="#fff" /> : props.text ?? props.text}</Text>
         </Pressable>
     )
 }

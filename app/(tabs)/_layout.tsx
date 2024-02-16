@@ -18,9 +18,10 @@ export default function Layout() {
                 backgroundColor: '#1b1b1b',
                 borderTopColor: 'transparent',
             },
-          }}>
-            <Tabs.Screen name="home"/>
-            <Tabs.Screen name="user" />
+          }}
+          >
+            <Tabs.Screen name="home" options={{ headerShown: false}}/>
+            <Tabs.Screen name="user" options={{ headerShown: false}}/>
         </Tabs>
     )
 } 

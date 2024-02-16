@@ -52,11 +52,12 @@ const Page = () => {
                         setEmail(text);
                         setValidEmail(validator.isEmail(text) || text === "");
                     }}
+                    autoCorrect={false}
                     autoCapitalize='none'/> 
                     {!validEmail && <Text style={{color: 'red', marginTop: 10, alignSelf: 'flex-start', paddingLeft: '15%'}}>Enter a valid E-Mail address</Text>}
 
             <View style={{marginTop: 16, width: '100%', justifyContent: 'center', alignItems: 'center'}}>
-            <LoginButton onPress={() => {handlePress()}} disabled={!validEmail || loading} loading={loading}/>
+            <LoginButton text={"Continue"} onPress={() => {handlePress()}} disabled={!validEmail || loading} loading={loading}/>
             </View>
         </View>
     )

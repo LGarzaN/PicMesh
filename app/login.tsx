@@ -104,7 +104,7 @@ const Page = () => {
             {wrongPassword && <Text style={{color: 'red', marginTop: 10, alignSelf: 'flex-start', paddingLeft: '15%'}}>Incorrect Password</Text>}
 
           <View style={{width: '100%', justifyContent: 'center', alignItems: 'center', marginTop: 18}}>
-            <LoginButton onPress={handlePress} disabled={!validPhone || formattedValue === "" || isLoading} loading={isLoading}/>
+            <LoginButton text={"Continue"} onPress={handlePress} disabled={!validPhone || formattedValue === "" || isLoading} loading={isLoading}/>
           </View>
 
           
