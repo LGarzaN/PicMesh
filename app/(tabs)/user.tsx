@@ -3,8 +3,12 @@ import LoginButton from '@/components/LoginButton';
 import { Stack } from 'expo-router'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { router } from 'expo-router'
+import { useEffect, useState } from 'react';
 
 const Page = () => {
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+
     const signOut = async () => {
         try {
             await AsyncStorage.setItem("token", "");
@@ -13,6 +17,26 @@ const Page = () => {
             console.error(error);
         }
     }
+
+    useEffect(() => {
+        const checkToken = async () => {
+            try {
+                const token = await AsyncStorage.getItem("token");
+                if (!token) {
+                    router.navigate('/login');
+                }
+                if (token) {
+                    const decoded = JSON.parse(atob(token.split('.')[1]));
+                    setUsername(decoded.username);
+                    setEmail(decoded.email);
+                    console.log(decoded, "decoded");
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        checkToken();
+    }, [])
 
     return (
         <View style={{ flex: 1, backgroundColor: '#1B1B1B' }}>
@@ -24,7 +48,7 @@ const Page = () => {
                 <Text style={styles.edit}>edit</Text>
 
                 </TouchableOpacity>
-            <Text style={styles.title}>UserName</Text>
+            <Text style={styles.title}>{username ? username : "UserName"}</Text>
             <Text style={styles.phone}>+ 52 81 1482 3428</Text>
         </View>
         <View style={styles.bottomContainer}>
@@ -34,7 +58,7 @@ const Page = () => {
             <View style={styles.line}/>
             <View style={styles.infoContainer}>
                 <Text style={styles.infoTxt}>email:</Text>
-                <Text style={styles.detailTxt}>user.name@gmail.com</Text>
+                <Text style={styles.detailTxt}>{email ? email : "Email@gmail.com"}</Text>
             </View>
             <View style={styles.infoContainer}>
                 <Text style={styles.infoTxt}>email:</Text>
@@ -121,7 +145,7 @@ const styles = StyleSheet.create({
         width: '100%', 
         justifyContent: 'center', 
         alignItems: 'center',
-        marginTop: 190
+        marginTop: 'auto'
     }
 });
 

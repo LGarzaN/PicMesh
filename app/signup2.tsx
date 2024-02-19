@@ -1,4 +1,4 @@
-import {Pressable, Text, Image, TextInput, View, Alert} from 'react-native'
+import {Pressable, Text, Image, TextInput, View, Alert, Platform} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useState } from 'react';
 import * as ImagePicker from "expo-image-picker"; 
@@ -9,14 +9,14 @@ import axios from 'axios';
 
 const Page = () => {
     const params = useLocalSearchParams();
-    const [image, setImage] = useState(null); 
+    const [image, setImage] = useState<string | null>(null);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error2, setError2] = useState(false);
     const [user, setUser] = useState({
-        email: params.email,
+        email: params.email as string,
         password: "",
-        phone: params.phone,
+        phone: params.phone as string,
         username: "",
     });
 
@@ -40,7 +40,23 @@ const Page = () => {
         } else {
             try{
                 setLoading(true);
-                const res = await axios.post("http://ec2-3-85-82-230.compute-1.amazonaws.com:3100/users/signup", user);
+
+                const data = new FormData();
+                data.append('email', user.email);
+                data.append('phone', user.phone);
+                data.append('username', user.username);
+                data.append('password', user.password);
+
+                if (image) {
+                    data.append('profilePicture', image);
+                }
+                
+
+                const res = await axios.post("http://ec2-3-85-82-230.compute-1.amazonaws.com:3100/users/signup", data, {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                });
                 setLoading(false);
                 if (res.status === 201) {
                     try {
@@ -50,11 +66,12 @@ const Page = () => {
                         });
                         router.navigate('/home');
                     } catch (error) {
-                        Alert.alert("An error occured. Please try again later" + error);
+                        Alert.alert(error as string);
                     }
                 }
             } catch (error) {
                 Alert.alert("An error occured. Please try again later" + error);
+                console.log(error);
                 setLoading(false);
             }
 
@@ -114,7 +131,7 @@ const Page = () => {
             {error && <Text style={{color: 'red', marginTop: 10, alignSelf: 'flex-start', paddingLeft: '15%'}}>Passwords do not match</Text>}
             
             <View style={{width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: '20%',  marginTop: 20}}>
-                <LoginButton text={"Continue"} onPress={handleClick} disabled={error || error2} loading={loading}/>
+                <LoginButton onPress={handleClick} disabled={error || error2} loading={loading} text={"Sign up"}/>
             </View>
         </SafeAreaView>
     )

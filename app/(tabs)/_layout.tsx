@@ -14,7 +14,7 @@ export default function Layout() {
               fontSize: 35,
               fontFamily: "inikaRegular",
             },
-            headerStatusBarHeight: 30,
+            headerStatusBarHeight: 0,
             headerShadowVisible: false,
             tabBarStyle: {
                 backgroundColor: '#1b1b1b',
@@ -24,7 +24,7 @@ export default function Layout() {
             <Tabs.Screen   
                 name="home"
                 options={{
-                    headerShown: false,
+                    headerShown: true,
                     title: "",
                     tabBarIcon: ({ focused, color }) => (
                         <Ionicons
@@ -54,8 +54,11 @@ export default function Layout() {
             <Tabs.Screen   
                 name="user"
                 options={{
-                  headerShown: false,
+                  headerShown: true,
                   title: "",
+                  headerStyle: { // Add this to change the header background color
+                    backgroundColor: '#000', // Black color
+                  },
                     tabBarIcon: ({ focused, color }) => (
                         <Ionicons
                             name={focused ? 'person' : 'person-outline'}
